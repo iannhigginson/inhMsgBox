@@ -1,0 +1,3 @@
+@echo.
+@node app
+@echo.

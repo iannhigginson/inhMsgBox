@@ -1,0 +1,18 @@
+{
+ "name": "msg-box",
+ "version": "2.0.241122.1000",
+ "description": "An HTML Message Box",
+ "main": "./js/app.js",
+ "scripts": {
+  "test": "run.bat"
+ },
+ "repository": {
+  "type": "git",
+  "url": "https://"
+ },
+ "keywords": [
+  "css html javascript"
+ ],
+ "author": "Ian Neal Higginson",
+ "license": "LGPL-3.0"
+}
