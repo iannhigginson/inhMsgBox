@@ -24,7 +24,6 @@ function dragElement(draggableElement) {
   pos2 = pos4 - e.clientY;
   pos3 = e.clientX;
   pos4 = e.clientY;
-
   // set the element's new position:
   draggableElement.style.top = (draggableElement.offsetTop - pos2) + "px";
   draggableElement.style.left = (draggableElement.offsetLeft - pos1) + "px";

@@ -17,6 +17,9 @@ function destroyTheBox() {
 /* #region Function msg */
 function msg(_event, _action, _width, _height, _heading, _message) {
 
+ _event = event || window.event;
+ _event.preventDefault();
+
  var _windowWidth =
   window.innerWidth ||
   document.documentElement.clientWidth ||
@@ -27,17 +30,24 @@ function msg(_event, _action, _width, _height, _heading, _message) {
   document.documentElement.clientHeight ||
   document.body.clientHeight;
 
- var _posTop = 0;
- _posTop = _event.pageY;
+ var _posTop = 80;
+ _posTop = _event.pageY || _event.clientY;
  if (_posTop === undefined) {
   _posTop = _windowHeight / 4;
  }
- _posTop = _posTop + "px";
+ // _posTop = _posTop + "px";
 
  var _Height = _height;
- if (_Height === "" || isNaN(_Height) === true) { _Height = "300px"; }
+ if (_Height === "") {
+  _Height = 200;
+ }
+
  var _Width = _width;
- if (_Width === "" || isNaN(_Width) === true) { _Width = _windowWidth / 4 + "px"; }
+ if (_Width === "") {
+  _Width = 500;
+ }
+
+ console.log(`_Width=> ${_Width}`);
 
  /* #region Create the message box */
  function createTheBox() {
@@ -57,16 +67,16 @@ function msg(_event, _action, _width, _height, _heading, _message) {
   msgOuterBox.style.borderTop = "blue solid thin";
   msgOuterBox.style.borderRadius = "5px";
   msgOuterBox.style.boxShadow = "2px 2px 5px #5098c7";
-  msgOuterBox.style.height = _height;
-  msgOuterBox.style.left = "5px";// _windowWidth / 2 - _windowWidth / 5;
+  msgOuterBox.style.height = _Height + "px";
+  msgOuterBox.style.left = "5px";
   msgOuterBox.style.marginLeft = "200px";
   msgOuterBox.style.marginRight = "200px";
   msgOuterBox.style.marginTop = "10px";
   msgOuterBox.style.overflow = "hidden";
   msgOuterBox.style.position = "absolute";
   msgOuterBox.style.textAlign = "center";
-  msgOuterBox.style.top = "80px"; // _posTop;
-  msgOuterBox.style.width = _width;
+  msgOuterBox.style.top = _posTop + "px"; //"80px";
+  msgOuterBox.style.width = _Width + "px";
   msgOuterBox.style.zIndex = "100";
   /* #endregion msgOuterBox */
 
@@ -81,7 +91,7 @@ function msg(_event, _action, _width, _height, _heading, _message) {
   msgInnerBox.style.borderTop = "blue solid thin";
   msgInnerBox.style.borderRadius = "5px";
   msgInnerBox.style.boxShadow = "2px 2px 5px #5098c7";
-  msgInnerBox.style.height = parseInt(msgOuterBox.style.height) - 120 + "px";
+  msgInnerBox.style.height = (parseInt(msgOuterBox.style.height) - 120) + "px";
   msgInnerBox.style.left = (parseInt(msgOuterBox.style.left) + 5) + "px";  // "1%";
   msgInnerBox.style.marginBottom = "3.5px";
   msgInnerBox.style.marginLeft = "auto";
@@ -90,7 +100,7 @@ function msg(_event, _action, _width, _height, _heading, _message) {
   msgInnerBox.style.overflow = "hidden";
   msgInnerBox.style.padding = "50px";
   msgInnerBox.style.position = "absolute";
-  msgInnerBox.style.top = (parseInt(msgOuterBox.style.top) - 75) + "px";
+  msgInnerBox.style.top = (parseInt(msgOuterBox.style.top) - _posTop) + "px";
   msgInnerBox.style.width = (parseInt(msgOuterBox.style.width) - 120) + "px";  // "88%";
   /* #endregion msgInnerBox */
 
@@ -204,9 +214,9 @@ function msg(_event, _action, _width, _height, _heading, _message) {
   // msgBoxDraggableElement.style.zIndex = "200";
 
   msgBoxDraggableElement.style.height = "1px";
-  msgBoxDraggableElement.style.left = "0px"; //_windowWidth / 2;
+  msgBoxDraggableElement.style.left = "0px";
   msgBoxDraggableElement.style.position = "absolute";
-  msgBoxDraggableElement.style.top = "0px"; //_windowHeight / 2;
+  msgBoxDraggableElement.style.top = "0px";
   msgBoxDraggableElement.style.width = "1px";
   /* #endregion Dragable div */
 
