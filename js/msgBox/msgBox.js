@@ -65,17 +65,17 @@ function msg(_event, _action, _width, _height, _heading, _message) {
  //  document.documentElement.clientWidth ||
  //  document.body.clientWidth;
 
- var _windowHeight =
-  window.innerHeight ||
-  document.documentElement.clientHeight ||
-  document.body.clientHeight;
+ // var _windowHeight =
+ //  window.innerHeight ||
+ //  document.documentElement.clientHeight ||
+ //  document.body.clientHeight;
 
- var _posTop = 80;
- _posTop = _event.pageY || _event.clientY;
- if (_posTop === undefined) {
-  _posTop = _windowHeight / 4;
+ var _posTop;
+ if (_event.pageY === undefined || _event.clientY === undefined) {
+  _posTop = 100;
+ } else {
+  _posTop = _event.pageY || _event.clientY;
  }
- // _posTop = _posTop + "px";
 
  var _Height = _height;
  if (_Height === "") {
@@ -249,12 +249,12 @@ function msg(_event, _action, _width, _height, _heading, _message) {
 
   if (fColor === "rgb(255, 255, 255)" || fColor === null || fColor === undefined) {
    msgBodyBox.style.backgroundColor = "rgb(0, 0, 0)";
-  msgDarkBox.innerHTML = "L";
-  msgDarkBox.style.backgroundColor = "#808080";
+   msgDarkBox.innerHTML = "L";
+   msgDarkBox.style.backgroundColor = "#808080";
   } else {
    msgBodyBox.style.backgroundColor = "rgb(255, 255, 255)";
-  msgDarkBox.innerHTML = "D";
-  msgDarkBox.style.backgroundColor = "#080808";
+   msgDarkBox.innerHTML = "D";
+   msgDarkBox.style.backgroundColor = "#080808";
   }
 
   msgBodyBox.style.borderTop = "blue solid thin";
@@ -291,7 +291,7 @@ function msg(_event, _action, _width, _height, _heading, _message) {
   /* #region Draggable script */
   msgBoxDraggableScript = document.createElement("script");
   msgBoxDraggableScript.setAttribute("type", "text/javascript");
-  msgBoxDraggableScript.setAttribute("src", "./js/msgBoxDraggable.js");
+  msgBoxDraggableScript.setAttribute("src", "./js/msgBox/msgBoxDraggable.js");
   /* #endregion Draggable script */
 
   /**
@@ -349,10 +349,11 @@ function msg(_event, _action, _width, _height, _heading, _message) {
 }
 /* #endregion Function msg */
 
+/* #region Cookies */
 /**
  ** Cookies
  */
-/* #region Cookies */
+//* Set cookie 'name, value, expiry date, path, site name'.
 function sc(cname, cvalue, exdays, cpath, csamesite) {
 
  "use strict";
@@ -388,6 +389,7 @@ function sc(cname, cvalue, exdays, cpath, csamesite) {
 
 }
 
+//* Get cookie 'name'.
 function gc(cname) {
  "use strict";
  var name = cname + "=";
