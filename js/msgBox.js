@@ -11,19 +11,59 @@ function destroyTheBox() {
  let bodyTag = document.getElementsByTagName("body")[0];
  let msgBoxDraggableElement = document.getElementById("msgBoxDraggableElement");
  bodyTag.removeChild(msgBoxDraggableElement);
+ // sc("msg", "", -7, "", "");
 }
 /* #endregion Destroy the message box */
+
+/* #region darkenTheBox */
+function darkenTheBox() {
+ var bColor, fColor;
+ var msgDarkBox = document.getElementById("msgDarkBox");
+ var msgBodyBox = document.getElementById("msgBodyBox");
+
+ bColor = gc("bColor");
+ fColor = gc("fColor");
+ console.log(`function darkenTheBox() bColor=> ${bColor}; fColor=> ${fColor}`);
+ console.log(`msgBodyBox.style.backgroundColor=> ${msgBodyBox.style.backgroundColor}`);
+
+ if (msgBodyBox.style.backgroundColor === "rgb(255, 255, 255)") {
+
+  msgBodyBox.style.backgroundColor = "rgb(0, 0, 0)";
+  sc("bColor", "rgb(0, 0, 0)", 7, "", "");
+
+  msgBodyBox.style.color = "rgb(255, 255, 255)";
+  sc("fColor", "rgb(255, 255, 255)", 7, "", "");
+
+  msgDarkBox.innerHTML = "L";
+  msgDarkBox.style.backgroundColor = "#808080";
+
+ } else {
+
+  msgBodyBox.style.backgroundColor = "rgb(255, 255, 255)";
+  sc("bColor", "rgb(255, 255, 255)", 7, "", "");
+
+  msgBodyBox.style.color = "rgb(0, 0, 0)";
+  sc("fColor", "rgb(0, 0, 0)", 7, "", "");
+
+  msgDarkBox.innerHTML = "D";
+  msgDarkBox.style.backgroundColor = "#080808";
+
+ }
+}
+/* #endregion darkenTheBox */
 
 /* #region Function msg */
 function msg(_event, _action, _width, _height, _heading, _message) {
 
+ sc("msg", "msg(_event, _action, _width, _height, _heading, _message)", 7, "", "");
+ /* #region Global Variables */
  _event = event || window.event;
  _event.preventDefault();
 
- var _windowWidth =
-  window.innerWidth ||
-  document.documentElement.clientWidth ||
-  document.body.clientWidth;
+ // var _windowWidth =
+ //  window.innerWidth ||
+ //  document.documentElement.clientWidth ||
+ //  document.body.clientWidth;
 
  var _windowHeight =
   window.innerHeight ||
@@ -46,16 +86,17 @@ function msg(_event, _action, _width, _height, _heading, _message) {
  if (_Width === "") {
   _Width = 500;
  }
-
- console.log(`_Width=> ${_Width}`);
+ /* #endregion Global Variables */
 
  /* #region Create the message box */
  function createTheBox() {
   /**
    ** The construction
    */
-  var msgBodyBox, msgCloseBox, msgBoxDraggableElement, msgHeaderBox, msgInnerBox, msgOuterBox, msgBoxDraggableScript;
+  /* #region Variables */
+  var msgBodyBox, msgCloseBox, msgDarkBox, msgBoxDraggableElement, msgHeaderBox, msgInnerBox, msgOuterBox, msgBoxDraggableScript;
   let bodyTag = document.getElementsByTagName("body")[0];
+  /* #endregion Variables */
 
   /**
    ** The outer box
@@ -119,7 +160,7 @@ function msg(_event, _action, _width, _height, _heading, _message) {
   msgHeaderBox.style.left = (parseInt(msgInnerBox.style.left) - 10) + "px";
   msgHeaderBox.style.marginLeft = "1%";
   msgHeaderBox.style.marginRight = "1%";
-  msgHeaderBox.style.overflowX = "auto";
+  msgHeaderBox.style.overflowX = "hidden";
   msgHeaderBox.style.overflowY = "hidden";
   msgHeaderBox.style.paddingLeft = "5px";
   msgHeaderBox.style.paddingRight = "5px";
@@ -163,16 +204,69 @@ function msg(_event, _action, _width, _height, _heading, _message) {
   /* #endregion msgCloseBox */
 
   /**
+   ** The dark button
+   */
+  /* #region msgDarkBox */
+  msgDarkBox = document.createElement("div");
+  msgInnerBox.appendChild(msgDarkBox);
+  msgDarkBox.id = "msgDarkBox";
+  msgDarkBox.innerHTML = "D";
+  msgDarkBox.style.backgroundColor = "#808080";
+  msgDarkBox.style.border = "#000 solid thin";
+  msgDarkBox.style.borderRadius = "5px";
+  msgDarkBox.style.boxShadow = "2px 2px 5px #5098c7";
+  msgDarkBox.style.color = "#ffffff";
+  msgDarkBox.style.cursor = "pointer";
+  msgDarkBox.style.fontSize = "2em";
+  msgDarkBox.style.fontWeight = "bold";
+  msgDarkBox.style.height = "1em";
+  msgDarkBox.style.margin = "3px";
+  msgDarkBox.style.paddingBottom = "4px";
+  msgDarkBox.style.paddingLeft = "3px";
+  msgDarkBox.style.paddingRight = "3px";
+  msgDarkBox.style.paddingTop = "3px";
+  msgDarkBox.style.position = "absolute";
+  msgDarkBox.style.right = (parseInt(msgHeaderBox.style.width) - (parseInt(msgHeaderBox.style.width) - 70)) + "px";
+  msgDarkBox.style.textAlign = "center";
+  msgDarkBox.style.top = (parseInt(msgHeaderBox.style.height) + (parseInt(msgHeaderBox.style.height) * 4)) + "px";
+  msgDarkBox.style.width = "1em";
+  msgDarkBox.style.zIndex = "120";
+  msgDarkBox.setAttribute("onclick", "darkenTheBox()");
+  /* #endregion msgDarkBox */
+
+  /**
    ** The body, will contain the message.
    */
   /* #region msgBodyBox */
+  var bColor, fColor;
+
+  bColor = gc("bColor");
+  fColor = gc("fColor");
+
   msgBodyBox = document.createElement("div");
   msgInnerBox.appendChild(msgBodyBox);
   msgBodyBox.id = "msgBodyBox";
-  msgBodyBox.style.backgroundColor = "#f5f5f5";
+
+  if (fColor === "rgb(255, 255, 255)" || fColor === null || fColor === undefined) {
+   msgBodyBox.style.backgroundColor = "rgb(0, 0, 0)";
+  msgDarkBox.innerHTML = "L";
+  msgDarkBox.style.backgroundColor = "#808080";
+  } else {
+   msgBodyBox.style.backgroundColor = "rgb(255, 255, 255)";
+  msgDarkBox.innerHTML = "D";
+  msgDarkBox.style.backgroundColor = "#080808";
+  }
+
   msgBodyBox.style.borderTop = "blue solid thin";
   msgBodyBox.style.borderRadius = "5px";
   msgBodyBox.style.boxShadow = "2px 2px 5px #5098c7";
+
+  if (msgBodyBox.style.backgroundColor === "rgb(0, 0, 0)") {
+   msgBodyBox.style.color = "rgb(255, 255, 255)";
+  } else {
+   msgBodyBox.style.color = "rgb(0, 0, 0)";
+  }
+
   msgBodyBox.style.height = (parseInt(msgInnerBox.style.height) + 0) + "px";
   msgBodyBox.style.left = (parseInt(msgInnerBox.style.left) - 10) + "px";
   msgBodyBox.style.marginBottom = "1em";
@@ -237,18 +331,77 @@ function msg(_event, _action, _width, _height, _heading, _message) {
  /**
   ** What to do?
   */
+ /* #region Start */
  switch (_action.trim()) {
   case "+":
    createTheBox();
+   setTimeout(() => {
+    document.getElementById("msgHeaderBox").innerHTML = "<h2>" + _heading + "</h2>";
+    document.getElementById("msgBodyBox").innerHTML = _message;
+   }, 100);
    break;
   case "-":
    destroyTheBox();
    break;
  }
-
- document.getElementById("msgHeaderBox").innerHTML = "<h2>" + _heading + "</h2>";
- document.getElementById("msgBodyBox").innerHTML = _message;
-
+ /* #endregion Start */
 
 }
 /* #endregion Function msg */
+
+/**
+ ** Cookies
+ */
+/* #region Cookies */
+function sc(cname, cvalue, exdays, cpath, csamesite) {
+
+ "use strict";
+
+ //~ Cookie name.
+ var cookieData = `${cname}=${cvalue}`;
+
+ //~ Cookie Expiry Date.
+ var d = new Date();
+ d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+ var expiryDate = `expires=${d.toUTCString()};`;
+
+ //~ Cookie Path.
+ var path = "";
+ if (cpath !== "") {
+  path = `path=${cpath}`;
+ } else {
+  path = "path=/";
+ }
+
+ //~ Cookie SameSite Attribute.
+ var SameSite = "";
+ if (csamesite === "") {
+  SameSite = `SameSite=None`;
+ } else {
+  SameSite = `SameSite=${csamesite}`;
+ }
+
+ //~ Set Cookie.
+ document.cookie = `${cookieData}; ${expiryDate}; ${path}; ${SameSite}; Secure`;
+
+ console.info(document.cookie);
+
+}
+
+function gc(cname) {
+ "use strict";
+ var name = cname + "=";
+ var ca = document.cookie.split(";");
+ for (var i = 0; i < ca.length; i++) {
+  var c = ca[i];
+  while (c.charAt(0) === " ") {
+   c = c.substring(1);
+   if (c.indexOf(name) !== -1) {
+    return c.substring(name.length, c.length);
+   }
+  }
+ }
+ return "";
+}
+
+/* #endregion Cookies */
