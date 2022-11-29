@@ -8,23 +8,29 @@
 
 /* #region Destroy the message box */
 function destroyTheBox() {
+ "use strict";
+
  let bodyTag = document.getElementsByTagName("body")[0];
  let msgBoxDraggableElement = document.getElementById("msgBoxDraggableElement");
+
  bodyTag.removeChild(msgBoxDraggableElement);
- // sc("msg", "", -7, "", "");
+
+ //
 }
 /* #endregion Destroy the message box */
 
 /* #region darkenTheBox */
 function darkenTheBox() {
+ "use strict";
+
  var bColor, fColor;
  var msgDarkBox = document.getElementById("msgDarkBox");
  var msgBodyBox = document.getElementById("msgBodyBox");
 
  bColor = gc("bColor");
  fColor = gc("fColor");
- console.log(`function darkenTheBox() bColor=> ${bColor}; fColor=> ${fColor}`);
- console.log(`msgBodyBox.style.backgroundColor=> ${msgBodyBox.style.backgroundColor}`);
+ // console.log(`function darkenTheBox() bColor=> ${bColor}; fColor=> ${fColor}`);
+ // console.log(`msgBodyBox.style.backgroundColor=> ${msgBodyBox.style.backgroundColor}`);
 
  if (msgBodyBox.style.backgroundColor === "rgb(255, 255, 255)") {
 
@@ -49,29 +55,34 @@ function darkenTheBox() {
   msgDarkBox.style.backgroundColor = "#080808";
 
  }
+
+ //
 }
 /* #endregion darkenTheBox */
 
 /* #region Function msg */
 function msg(_event, _action, _width, _height, _heading, _message) {
+ "use strict";
 
  sc("msg", "msg(_event, _action, _width, _height, _heading, _message)", 7, "", "");
  /* #region Global Variables */
  _event = event || window.event;
- _event.preventDefault();
+ if (_event !== undefined) {
+  _event.preventDefault();
+ }
 
- // var _windowWidth =
- //  window.innerWidth ||
- //  document.documentElement.clientWidth ||
- //  document.body.clientWidth;
+ var _windowWidth =
+  window.innerWidth ||
+  document.documentElement.clientWidth ||
+  document.body.clientWidth;
 
- // var _windowHeight =
- //  window.innerHeight ||
- //  document.documentElement.clientHeight ||
- //  document.body.clientHeight;
+ var _windowHeight =
+  window.innerHeight ||
+  document.documentElement.clientHeight ||
+  document.body.clientHeight;
 
  var _posTop;
- if (_event.pageY === undefined || _event.clientY === undefined) {
+ if (_event === undefined) {
   _posTop = 100;
  } else {
   _posTop = _event.pageY || _event.clientY;
@@ -90,6 +101,7 @@ function msg(_event, _action, _width, _height, _heading, _message) {
 
  /* #region Create the message box */
  function createTheBox() {
+
   /**
    ** The construction
    */
@@ -238,9 +250,8 @@ function msg(_event, _action, _width, _height, _heading, _message) {
    ** The body, will contain the message.
    */
   /* #region msgBodyBox */
-  var bColor, fColor;
+  var fColor;
 
-  bColor = gc("bColor");
   fColor = gc("fColor");
 
   msgBodyBox = document.createElement("div");
@@ -385,7 +396,7 @@ function sc(cname, cvalue, exdays, cpath, csamesite) {
  //~ Set Cookie.
  document.cookie = `${cookieData}; ${expiryDate}; ${path}; ${SameSite}; Secure`;
 
- console.info(document.cookie);
+ // console.info(document.cookie);
 
 }
 
